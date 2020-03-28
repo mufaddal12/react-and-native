@@ -4,6 +4,7 @@ import { Button, Input } from "react-native-elements";
 import TabNavigator from "./navigation/tabnavigation";
 import url from "./global";
 import Axios from "axios";
+import { setItemAsync, getItemAsync, ALWAYS } from "expo-secure-store";
 
 const myApiUrl = url + "login/";
 
@@ -30,9 +31,7 @@ class Start extends Component {
         <React.Fragment>
           <TabNavigator
             screenProps={{
-              logout: () => {
-                this.setState({ token: "", username: "", password: "" });
-              },
+              logout: this.logout,
               state: this.state
             }}
           />
@@ -63,6 +62,11 @@ class Start extends Component {
     }
   }
 
+  logout = () => {
+    setItemAsync("token", "", { accessible: ALWAYS });
+    this.setState({ token: "", username: "", password: "" });
+  };
+
   authenticate = () => {
     const username = this.state.username;
     const password = this.state.password;
@@ -77,6 +81,7 @@ class Start extends Component {
       console.log(data);
       if (data["authenticate"]) {
         console.log("Authenticated");
+        setItemAsync("token", data["token"], { accessible: ALWAYS });
         this.setState({ token: data["token"] });
       } else {
         console.log("Not Authenticated");
@@ -86,6 +91,11 @@ class Start extends Component {
 
   componentDidMount() {
     console.log("Mounted - Start");
+    getItemAsync("token").then(value => {
+      this.state.token = value;
+      console.log(this.state.token);
+      this.setState({ token: value });
+    });
   }
 }
 

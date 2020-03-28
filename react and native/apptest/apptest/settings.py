@@ -25,7 +25,7 @@ SECRET_KEY = 'x)v4$o5s&nspyocn&4o4e(6m(x21)=la%ib9s0d9j7n^j3yhsq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "192.168.1.4",
+ALLOWED_HOSTS = ["localhost", "192.168.1.4", "192.168.1.2",
                  "192.168.1.5", "192.168.1.3", "192.168.2.7"]
 
 
